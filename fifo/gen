@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+# stop on the first error
+set -e
+
+../utils/uvm_code_gen/main.py fifo_in.conf ./fifo_out.conf

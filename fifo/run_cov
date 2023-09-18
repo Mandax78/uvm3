@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -e
+
+rm -rf ./output/bin/output
+./run -covfile ../input/covfile.txt +coverage_enable $@
