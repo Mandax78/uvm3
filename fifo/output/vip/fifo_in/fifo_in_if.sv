@@ -14,8 +14,8 @@ interface fifo_in_if();
   wire data_in_rdy;
 
   clocking cb_drv @(posedge clk);
-    input data_in;
-    input data_in_vld;
+    output data_in;
+    output data_in_vld;
     input data_in_rdy;
   endclocking : cb_drv
 

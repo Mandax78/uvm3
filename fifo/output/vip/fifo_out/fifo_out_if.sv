@@ -16,7 +16,7 @@ interface fifo_out_if();
   clocking cb_drv @(posedge clk);
     input data_out;
     input data_out_vld;
-    input data_out_rdy;
+    output data_out_rdy;
   endclocking : cb_drv
 
   clocking cb_mon @(posedge clk);

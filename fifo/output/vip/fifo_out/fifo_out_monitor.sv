@@ -13,6 +13,8 @@ class fifo_out_monitor extends uvm_monitor;
 
   fifo_out_tx m_trans;
 
+  fifo_out_tx m_trans_copy;
+
   extern function new(string name, uvm_component parent);
 
   extern task run_phase(uvm_phase phase);
@@ -36,7 +38,9 @@ endtask : run_phase
 
 
 task fifo_out_monitor::do_mon();
-  `uvm_fatal(get_type_name(), "TODO: fill do_mon()");
+m_trans.data = vif.cb_mon.data_out;
+$cast(m_trans_copy, m_trans.clone());
+analysis_port.write(m_trans_copy);
 endtask : do_mon
 
 

@@ -36,7 +36,12 @@ endtask : run_phase
 
 
 task fifo_out_driver::do_drive();
-  `uvm_fatal(get_type_name(), "TODO: fill do_drive()");
+  vif.cb_drv.data_out_rdy <= 1'b1;
+  @(vif.cb_drv);
+  while (vif.cb_drv.data_out_vld !== 1) begin
+    @(vif.cb_drv);
+  end
+    vif.cb_drv.data_out_rdy <= 1'b0;
 endtask : do_drive
 
 
