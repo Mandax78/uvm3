@@ -25,6 +25,8 @@ endfunction : new
 task fifo_out_driver::run_phase(uvm_phase phase);
   `uvm_info(get_type_name(), "run_phase", UVM_HIGH)
 
+  vif.cb_drv.data_out_rdy <= 1'b0;
+  @(vif.cb_drv);
   forever
   begin
     seq_item_port.get_next_item(req);

@@ -25,6 +25,10 @@ endfunction : new
 task fifo_in_driver::run_phase(uvm_phase phase);
   `uvm_info(get_type_name(), "run_phase", UVM_HIGH)
 
+  vif.cb_drv.data_in <= 'hx;
+  vif.cb_drv.data_in_vld <= 1'b0;
+  @(vif.cb_drv);
+
   forever
   begin
     seq_item_port.get_next_item(req);
