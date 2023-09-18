@@ -21,9 +21,9 @@ module top_th;
   assign fifo_in_if.clk = clk;
   assign fifo_out_if.clk = clk;
 
-  dut dut(
+  fifo fifo(
     .clk (clk),
-    .rstn (rstn),
+    //.rstn (rstn),
     .data_in (fifo_in_if.data_in),
     .data_in_vld (fifo_in_if.data_in_vld),
     .data_in_rdy (fifo_in_if.data_in_rdy),
