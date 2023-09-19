@@ -1,6 +1,8 @@
 `ifndef FIFO_OUT_DRIVER_SV
 `define FIFO_OUT_DRIVER_SV
 
+import verif_utils_pkg::*;
+
 class fifo_out_driver extends uvm_driver #(fifo_out_tx);
 
   `uvm_component_utils(fifo_out_driver)
@@ -8,6 +10,8 @@ class fifo_out_driver extends uvm_driver #(fifo_out_tx);
   virtual fifo_out_if vif;
 
   fifo_out_config m_config;
+
+  int rate = 80;
 
   extern function new(string name, uvm_component parent);
 
@@ -38,6 +42,9 @@ endtask : run_phase
 
 
 task fifo_out_driver::do_drive();
+  repeat (get_delay(rate)) begin
+    @(vif.cb_drv);
+  end
   vif.cb_drv.data_out_rdy <= 1'b1;
   @(vif.cb_drv);
   while (vif.cb_drv.data_out_vld !== 1) begin
