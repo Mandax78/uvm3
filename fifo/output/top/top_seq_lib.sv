@@ -10,7 +10,7 @@ class top_default_seq extends uvm_sequence #(uvm_sequence_item);
   fifo_in_agent m_fifo_in_agent;
   fifo_out_agent m_fifo_out_agent;
 
-  int m_seq_count = 1;
+  int m_seq_count = 4;
 
   extern function new(string name = "");
   extern task body();
