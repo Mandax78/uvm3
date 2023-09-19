@@ -28,9 +28,10 @@ endfunction : new
 task top_default_seq::body();
   `uvm_info(get_type_name(), "Default sequence starting", UVM_HIGH)
 
+  fork
+    begin
   repeat (m_seq_count)
   begin
-    fork
       if (m_fifo_in_agent.m_config.is_active == UVM_ACTIVE)
       begin
         fifo_in_default_seq seq;
@@ -42,6 +43,14 @@ task top_default_seq::body();
         seq.set_starting_phase( get_starting_phase() );
         seq.start(m_fifo_in_agent.m_sequencer, this);
       end
+    
+  end
+end
+
+  begin
+  repeat (2*m_seq_count)
+  begin
+    
       if (m_fifo_out_agent.m_config.is_active == UVM_ACTIVE)
       begin
         fifo_out_default_seq seq;
@@ -53,9 +62,11 @@ task top_default_seq::body();
         seq.set_starting_phase( get_starting_phase() );
         seq.start(m_fifo_out_agent.m_sequencer, this);
       end
-    join
+    
   end
+end
 
+join
   `uvm_info(get_type_name(), "Default sequence completed", UVM_HIGH)
 endtask : body
 
