@@ -38,9 +38,16 @@ endtask : run_phase
 
 
 task fifo_out_monitor::do_mon();
-m_trans.data = vif.cb_mon.data_out;
-$cast(m_trans_copy, m_trans.clone());
-analysis_port.write(m_trans_copy);
+forever begin
+    fifo_out_tx tx;
+    tx = fifo_out_tx::type_id::create("tx");
+    @(vif.cb_mon);
+    while (!(vif.cb_mon.data_out_vld === 1'b1 && vif.cb_mon.data_out_rdy === 1'b1)) begin
+      @(vif.cb_mon);
+    end
+    tx.data = vif.cb_mon.data_out;
+    analysis_port.write(tx);
+  end
 endtask : do_mon
 
 

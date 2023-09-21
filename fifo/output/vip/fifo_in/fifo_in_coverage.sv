@@ -7,14 +7,19 @@ class fifo_in_coverage extends uvm_subscriber #(fifo_in_tx);
 
   fifo_in_config m_config;
   fifo_in_tx     m_item;
+
   bit m_is_covered;
 
   covergroup m_cov;
     option.per_instance = 1;
     // You may insert additional coverpoints here ...
 
-    cp_data: coverpoint m_item.data;
-
+    cp_data: coverpoint m_item.data{
+      option.auto_bin_max = 4;
+    }
+    // cp_rate: coverpoint m_item.rate{
+    //   bins low = {0,1};
+    // }
   endgroup
 
   extern function new(string name, uvm_component parent);
@@ -37,6 +42,7 @@ function void fifo_in_coverage::write(input fifo_in_tx t);
   begin
     m_item = t;
     m_cov.sample();
+
     // Check coverage - could use m_cov.option.goal instead of 100 if your simulator supports it
     if (m_cov.get_inst_coverage() >= 100) m_is_covered = 1;
   end

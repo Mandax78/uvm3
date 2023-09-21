@@ -11,7 +11,7 @@ class fifo_in_driver extends uvm_driver #(fifo_in_tx);
 
   fifo_in_config m_config;
 
-  int rate = 80;
+  int rate = 20;
 
   extern function new(string name, uvm_component parent);
 

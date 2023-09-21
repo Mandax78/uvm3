@@ -32,4 +32,23 @@ module top_th;
     .data_out_rdy (fifo_out_if.data_out_rdy)
   );
 
+    assert property (@(posedge clk)  (fifo_in_if.data_in_rdy == 0)); // full
+    assert property (@(posedge clk)  (fifo_out_if.data_out_vld == 0)); // empty
+
+  sequence full;
+    @(posedge clk)  (fifo_in_if.data_in_rdy == 0); // full
+  endsequence: full
+
+  sequence empty;
+    @(posedge clk)  (fifo_out_if.data_out_vld == 0); // empty
+  endsequence: empty
+
+  property full_empty_full;
+    full ##[1:$] empty ##[1:$] full;
+  endproperty: full_empty_full
+
+  cover property(full_empty_full);
+// coveprety(sequence)
+
+// ##[1:$] : ##[1:$]
 endmodule

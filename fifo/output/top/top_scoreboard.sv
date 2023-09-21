@@ -38,6 +38,10 @@ class top_scoreboard extends uvm_scoreboard;
       pkt.sprint( uvm_default_line_printer )), UVM_HIGH)
 
       expected_data = q16.pop_front();
+
+      if (pkt.data != expected_data) begin
+      `uvm_error(get_type_name(), $psprintf("expected data_out=0x%0x but got 0x%0x", expected_data, pkt.data));
+    end
   endfunction: write_from_fifo_out
 
 

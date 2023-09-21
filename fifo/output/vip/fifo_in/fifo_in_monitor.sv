@@ -13,8 +13,6 @@ class fifo_in_monitor extends uvm_monitor;
 
   fifo_in_tx m_trans;
 
-  fifo_in_tx m_trans_copy;
-
   extern function new(string name, uvm_component parent);
 
   extern task run_phase(uvm_phase phase);
@@ -33,14 +31,24 @@ task fifo_in_monitor::run_phase(uvm_phase phase);
   `uvm_info(get_type_name(), "run_phase", UVM_HIGH)
 
   m_trans = fifo_in_tx::type_id::create("m_trans");
+    
   do_mon();
+      
 endtask : run_phase
 
 
 task fifo_in_monitor::do_mon();
-m_trans.data = vif.cb_mon.data_in;
-$cast(m_trans_copy, m_trans.clone());
-analysis_port.write(m_trans_copy);
+      forever begin
+    fifo_in_tx tx;
+    tx = fifo_in_tx::type_id::create("tx");
+    @(vif.cb_mon);
+    while (!(vif.cb_mon.data_in_vld === 1'b1 && vif.cb_mon.data_in_rdy === 1'b1)) begin
+      @(vif.cb_mon);
+    end
+    tx.data = vif.cb_mon.data_in;
+    analysis_port.write(tx);
+  end
+
 endtask : do_mon
 
 

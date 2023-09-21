@@ -13,7 +13,12 @@ class fifo_out_coverage extends uvm_subscriber #(fifo_out_tx);
     option.per_instance = 1;
     // You may insert additional coverpoints here ...
 
-    cp_data: coverpoint m_item.data;
+    cp_data: coverpoint m_item.data{
+      option.auto_bin_max = 4;
+    }
+    // cp_rate: coverpoint m_item.rate{
+
+    // }
 
   endgroup
 
